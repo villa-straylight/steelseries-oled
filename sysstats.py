@@ -58,6 +58,19 @@ while(1):
 
     dev.send_feature_report(data)
 
-    sleep(0.1)
+    sleep(1)
+
+    dev.send_feature_report(bytearray([0x61] + [0x00] * 641))
+
+    sleep(.05)
+    draw.rectangle([(0,0),(128,40)], fill=0)
+
+    draw.text((0, 0), "CPU Freq: {:4.0f}MHz".format(cpu_freq), font=font, fill=255)
+    
+    data = im.tobytes()
+    data = bytearray([0x61]) + data + bytearray([0x00])
+    dev.send_feature_report(data)
+
+    sleep(1)
 
 dev.close()
