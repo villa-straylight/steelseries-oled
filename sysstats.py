@@ -64,8 +64,12 @@ while(1):
 
     sleep(.05)
     draw.rectangle([(0,0),(128,40)], fill=0)
+    swap_use = round(psutil.swap_memory()[1]/1048576)
+    mem_use = round(psutil.virtual_memory()[3]/1048576)
 
     draw.text((0, 0), "CPU Freq: {:4.0f}MHz".format(cpu_freq), font=font, fill=255)
+    draw.text((0, 10), "Below is a test for mirppc".format(), font=font, fill=255)
+    draw.text((0, 20), "Swap: {0}MiB  Memory: {1}MiB".format(swap_use, mem_use), font=font, fill=255)
     
     data = im.tobytes()
     data = bytearray([0x61]) + data + bytearray([0x00])
