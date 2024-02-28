@@ -6,6 +6,11 @@ from time import sleep
 import signal
 import sys
 import psutil
+import configparser
+
+config = configparser.ConfigParser()
+config.sections()
+config.read('config.ini')
 
 def signal_handler(sig, frame):
     try:
@@ -17,23 +22,34 @@ def signal_handler(sig, frame):
     except:
         sys.exit(0)
 
-# Set up ctrl-c handler
 signal.signal(signal.SIGINT, signal_handler)
 
-# Stores an enumeration of all the connected USB HID devices
-en = Enumeration()
-# Return a list of devices based on the search parameters / Hardcoded to Apex 7
-devices = en.find(vid=0x1038, pid=0x161c, interface=1)
-if not devices:
-    devices = en.find(vid=0x1038, pid=0x1618, interface=1)
-if not devices:
-    print("No devices found, exiting.")
-    sys.exit(0)
+def getdevice():
+    # Stores an enumeration of all the connected USB HID devices
+    en = Enumeration()
+
+    #List of known working devices, add your PID here if it works
+    #                Apex 7,  7 TKL, Pro     Apex 5
+    supported_pid = (0x1612, 0x1618, 0x1610, 0x161c)
+
+    # Return a list of devices based on the search parameters
+    devices = en.find(vid=0x1038, interface=1)
+    if not devices:
+        exit("No SteelSeries devices found, exiting.")
+    # Need to figure out how to handle multiple devices gracefully
+    # for now we pick the first one that shows up
+    for device in devices:
+        if device.product_id in supported_pid:
+            return device
+
+    exit("No compatible SteelSeries devices found, exiting.")
 
 # Use first device found with vid/pid
-dev = devices[0]
+dev = getdevice()
 
-print("Press Ctrl-C to exit.\n")
+if sys.stdout.isatty():
+    print("Press Ctrl-C to exit.\n")
+
 dev.open()
 
 im = Image.new('1', (128,40))
