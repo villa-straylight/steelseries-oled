@@ -1,8 +1,10 @@
-# steelseries-oled
-Python utility for displaying GIFs on SteelSeries keyboards
+# IMPORTANT
+This is a fork of [steelseries-oled](https://github.com/edbgon/steelseries-oled) and is a work in progress. I plan to add more functionality, break a lot of stuff out into functions, add a config file, and a bit more. Right now it'll probably impregnate your cat, cause your fridge to make weird noises, give you an affinity for bears with Unix beards, and otherwise destroy your life. What follows is the original README.md which is probably not accurate at all right now.
 
-Currently made only for the SteelSeries Apex 7 with 128x40 size OLED
-Try to change the VID/PID yourself to see if it works with your keyboard.
+# steelseries-oled
+Python script for displaying images, arbitrary text, or system stuff on various Steelseries keyboard LEDs
+
+
 
 # Installation
 ```
